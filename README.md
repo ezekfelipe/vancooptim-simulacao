@@ -9,10 +9,31 @@ código-fonte da ferramenta clínica, e não deve ser usado para decisão assist
 
 ---
 
+## Conteúdo do repositório
+
+| Arquivo | O que é |
+|---|---|
+| `simulacao_vancooptim.R` | Estudo de simulação completo, estruturado pelo arcabouço ADEMP |
+| `goti_referencia.R` | Implementação independente do modelo de Goti 2018, usada como árbitro externo |
+
+### Por que existe uma implementação de referência
+
+O `goti_referencia.R` reimplementa o modelo bicompartimental de Goti a partir da publicação
+original, sem consultar o código da ferramenta. Serve como terceira implementação
+independente, para confronto com o motor de cálculo e com a verificação por recálculo manual.
+
+A justificativa é metodológica. O recálculo manual não discrimina erros de convenção, porque
+quem recalcula adota as mesmas convenções de quem implementou. Foi exatamente uma divergência
+de convenção — o referencial de tempo adotado na predição bicompartimental — que uma
+implementação independente revelou, e que nenhuma das outras duas verificações teria
+detectado.
+
+---
+
 ## O que este código faz
 
-Avalia se a estimativa bayesiana implementada no VancoOptim recupera a exposição
-verdadeira de um paciente, sob variabilidade farmacocinética realista.
+Avalia se a estimativa bayesiana implementada no VancoOptim recupera a exposição verdadeira
+de um paciente, sob variabilidade farmacocinética realista.
 
 O procedimento, por réplica:
 
@@ -102,6 +123,13 @@ res$sessao
 
 A Tabela 10, que trata da calibração do σ_obs, foi produzida por rotina separada e não está
 incluída nesta versão do repositório.
+
+A análise de comparação entre modelos populacionais, reportada na seção 3.8 do manuscrito,
+também não integra esta versão. Ela invoca diretamente o motor de cálculo da ferramenta, e
+não uma reimplementação independente, porque exige as definições dos seis priors tal como
+implementadas — transcrevê-las criaria uma segunda fonte de verdade para os mesmos
+coeficientes. Depositá-la aqui implicaria publicar módulos do código clínico, o que está fora
+do escopo declarado deste repositório.
 
 ---
 
@@ -202,15 +230,20 @@ concentrações previstas e observadas em pacientes reais.
 
 ---
 
-## Licença e citação
+## Licença
 
-[A DEFINIR. Sugestão: MIT para o código, CC-BY 4.0 para a documentação.]
+O código é distribuído sob a licença **MIT**, cujo texto integral está em `LICENSE`.
+
+A documentação — este README e demais textos explicativos — é distribuída sob **Creative
+Commons Atribuição 4.0 Internacional (CC BY 4.0)**. Ver `LICENSE-docs.md`.
+
+## Citação
 
 Ao usar este código, cite o registro do repositório e o manuscrito associado.
 
-```
-[A DEFINIR. Inserir a citação com DOI após o depósito no Zenodo.]
-```
+A citação com DOI será inserida aqui após o depósito no Zenodo. O identificador a citar é o
+**DOI de versão**, e não o de conceito: o de conceito aponta sempre para a versão mais
+recente, o que quebraria a correspondência com os números publicados no manuscrito.
 
 ---
 

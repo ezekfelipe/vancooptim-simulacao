@@ -1,0 +1,23 @@
+cff-version: 1.2.0
+message: "Se este código for utilizado, cite conforme abaixo."
+title: "VancoOptim — código de simulação"
+version: 1.0.0
+date-released: "[A DEFINIR]"
+license: MIT
+type: software
+authors:
+  - family-names: "Felipe"
+    given-names: "Ezequiel Oliveira"
+    affiliation: "Hospital Moriah, São Paulo, SP, Brasil"
+    orcid: "[A DEFINIR]"
+keywords:
+  - vancomicina
+  - farmacocinética populacional
+  - estimativa bayesiana
+  - estudo de simulação
+  - ADEMP
+abstract: >-
+  Código do estudo de simulação que avalia a recuperação da exposição verdadeira
+  pela estimativa bayesiana implementada no VancoOptim, sob mecanismo gerador
+  externo à biblioteca de priors da ferramenta. Semente fixa; resultados
+  exatamente reproduzíveis.

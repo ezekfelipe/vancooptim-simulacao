@@ -1,0 +1,22 @@
+{
+  "title": "VancoOptim — código de simulação",
+  "description": "<p>Código do estudo de simulação que integra o manuscrito <em>VancoOptim: desenvolvimento, verificação e avaliação por simulação de uma ferramenta web proprietária para dosagem bayesiana de vancomicina guiada por AUC em ambiente hospitalar</em>.</p><p>Avalia se a estimativa bayesiana implementada recupera a exposição verdadeira de um paciente, sob variabilidade farmacocinética realista, com mecanismo gerador externo à biblioteca de priors da ferramenta. Estruturado pelo arcabouço ADEMP. Semente aleatória fixa (20260812); a execução reproduz exatamente os números publicados.</p><p>Não inclui dados de pacientes nem o código-fonte da ferramenta clínica. Código de pesquisa: não constitui dispositivo médico e não deve ser empregado em decisão sobre dose de paciente.</p>",
+  "upload_type": "software",
+  "license": "MIT",
+  "language": "por",
+  "creators": [
+    { "name": "Felipe, Ezequiel Oliveira",
+      "affiliation": "Hospital Moriah, São Paulo, SP, Brasil",
+      "orcid": "[A DEFINIR]" }
+  ],
+  "keywords": [
+    "vancomicina", "farmacocinética populacional", "estimativa bayesiana",
+    "monitoramento terapêutico de medicamentos", "AUC", "estudo de simulação",
+    "ADEMP", "reprodutibilidade"
+  ],
+  "related_identifiers": [
+    { "identifier": "[A DEFINIR: DOI do manuscrito, após aceite]",
+      "relation": "isSupplementTo", "resource_type": "publication-article" }
+  ],
+  "version": "1.0.0"
+}
