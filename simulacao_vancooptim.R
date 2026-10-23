@@ -269,11 +269,15 @@ map_2pontos <- function(c_pico, t_pico, c_vale, t_vale, dose, tinf, tau,
 # =============================================================================
 
 prior_estratificado <- function(crcl, peso) {
-  if (crcl >= 90)      list(cl = 5.5, vd_kg = 0.50)
-  else if (crcl >= 60) list(cl = 4.0, vd_kg = 0.55)
-  else if (crcl >= 30) list(cl = 2.5, vd_kg = 0.60)
-  else if (crcl >= 15) list(cl = 1.2, vd_kg = 0.65)
-  else                 list(cl = 0.6, vd_kg = 0.65)
+  # CALIBRADO 10/2026: Vd plano de 0,70 L/kg, invariante com a funcao renal,
+  # conforme priors.js (Vd_mean = 0.70 * peso) e Tabela 1A do manuscrito. A
+  # escada anterior (0,50 a 0,65 L/kg) situava-se abaixo de toda a faixa
+  # publicada para adultos e nao tinha procedencia registrada.
+  if (crcl >= 90)      list(cl = 5.5, vd_kg = 0.70)
+  else if (crcl >= 60) list(cl = 4.0, vd_kg = 0.70)
+  else if (crcl >= 30) list(cl = 2.5, vd_kg = 0.70)
+  else if (crcl >= 15) list(cl = 1.2, vd_kg = 0.70)
+  else                 list(cl = 0.6, vd_kg = 0.70)
 }
 
 # =============================================================================
@@ -325,7 +329,7 @@ rodar_cenario_llopis <- function(t_coleta, n = N_REPLICAS,
     pr <- prior_estratificado(pv$crcl, pv$peso)
     cl_prior_dp <- pr$cl * 0.30
     vd_pop <- pr$vd_kg * pv$peso
-    vd_pop_dp <- 0.15 * pv$peso
+    vd_pop_dp <- vd_pop * 0.30   # CV de 30%, nao mais desvio absoluto
 
     if (metodo == "1ponto") {
       est <- propagar_vd(c_obs, t_coleta, dose, tinf, tau,
@@ -380,7 +384,7 @@ rodar_cenario <- function(vd_kg_gerador, t_coleta, n = N_REPLICAS,
     pr <- prior_estratificado(crcl, peso)
     cl_prior_dp <- pr$cl * 0.30
     vd_pop <- pr$vd_kg * peso
-    vd_pop_dp <- 0.15 * peso
+    vd_pop_dp <- vd_pop * 0.30   # CV de 30%, nao mais desvio absoluto
 
     if (metodo == "1ponto") {
       est <- propagar_vd(c_obs, t_coleta, dose, tinf, tau,
@@ -504,10 +508,10 @@ rodar_tudo <- function() {
       set.seed(SEMENTE + 4000L)
       r <- rodar_cenario_llopis(tc, metodo = met)
       t12[[paste(met, tc)]] <- r
-      cat(sprintf("%-10s %-10s %7s%% %7s%% %7s%% %7s%% %9s %11s\n",
+      cat(sprintf("%-10s %-10s %7s%% %7s%% %7s%% %7s%% %9s%% %11s\n",
                   ifelse(met == "1ponto", "1 ponto", "2 pontos"), paste0(tc, " h"),
                   fmt(r$mpe), fmt(r$mdpe), fmt(r$mape), fmt(r$mdape),
-                  ifelse(is.nan(r$cobertura), "  —  ", paste0(fmt(r$cobertura), "%")),
+                  ifelse(is.nan(r$cobertura), "—", fmt(r$cobertura)),
                   paste0("±", fmt(r$mc_mape, 2))))
     }
   }
@@ -564,7 +568,7 @@ calibrar_janela <- function(tau = 12, tinf = 2, n = N_REPLICAS, dose = 1000) {
 
       pr <- prior_estratificado(90, peso)   # adulto típico
       est <- propagar_vd(c_obs, tc, dose, tinf, tau,
-                         pr$cl, pr$cl * 0.30, pr$vd_kg * peso, 0.15 * peso)
+                         pr$cl, pr$cl * 0.30, pr$vd_kg * peso, pr$vd_kg * peso * 0.30)
       auc_e <- dose * (24 / tau) / est$cl
       if (is.finite(auc_e)) erros <- c(erros, 100 * (auc_e - auc_v) / auc_v)
     }
