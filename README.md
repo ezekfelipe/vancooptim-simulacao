@@ -18,9 +18,16 @@ código-fonte da ferramenta clínica, e não deve ser usado para decisão assist
 
 ### Por que existe uma implementação de referência
 
-O `goti_referencia.R` reimplementa o modelo bicompartimental de Goti a partir da publicação
-original, sem consultar o código da ferramenta. Serve como terceira implementação
-independente, para confronto com o motor de cálculo e com a verificação por recálculo manual.
+O `goti_referencia.R` reimplementa o modelo bicompartimental de Goti de forma explícita, sem
+otimizadores de caixa-preta, para que cada passo do cálculo seja auditável a partir do código.
+Serve como terceira implementação, para confronto com o motor de cálculo e com a verificação
+por recálculo manual.
+
+O alcance dessa verificação tem um limite, declarado no próprio arquivo. Os parâmetros
+populacionais foram transcritos da implementação do VancoOptim e não conferidos contra a
+publicação original de Goti e colaboradores. Uma implementação de referência que herda os
+parâmetros da ferramenta avaliada verifica a aritmética, não a fidelidade à fonte. A
+conferência dos valores contra o artigo original é passo pendente.
 
 A justificativa é metodológica. O recálculo manual não discrimina erros de convenção, porque
 quem recalcula adota as mesmas convenções de quem implementou. Foi exatamente uma divergência
@@ -58,7 +65,8 @@ introduz a discrepância entre modelo e realidade que existe na prática clínic
 
 ### Requisitos
 
-R versão 4.0 ou superior, apenas com pacotes de base. Verificado em R 4.6.1 sob Windows.
+R versão 4.0 ou superior, apenas com pacotes de base. Verificado em R 4.6.1 sob Windows e
+reproduzido em R 4.3.3 sob Linux, com resultado idêntico em todos os campos.
 
 ### Execução
 
@@ -119,7 +127,12 @@ res$sessao
 | `rodar_tudo()`, TABELA 7 | Tabela 7, desempenho da estimativa com concentração única |
 | `rodar_tudo()`, TABELA 8 | Tabela 8, volume populacional fixo versus estimado |
 | `rodar_tudo()`, COMPARAÇÃO | Tabela 9, uma versus duas concentrações |
-| `calibrar_janela()` | Tabela 11, erro por momento da coleta |
+| `rodar_tudo()`, TABELA 12 | Tabela 11, desempenho sob o gerador de Llopis-Salvia |
+| `calibrar_janela()` | Tabela 12, erro por momento da coleta |
+
+O rótulo que o script imprime para o gerador de Llopis-Salvia diz TABELA 12 e corresponde à
+Tabela 11 do manuscrito. A numeração interna do script acompanha uma versão anterior do texto
+e não altera nenhum valor calculado.
 
 A Tabela 10, que trata da calibração do σ_obs, foi produzida por rotina separada e não está
 incluída nesta versão do repositório.
@@ -200,14 +213,22 @@ o que sustenta comparações da ordem de 1 a 2 pontos.
 
 ### Calibração local: `calibrar_janela()`, `K_OBSERVADOS_MORIAH`
 
-Esta rotina roda com a distribuição de constantes de eliminação observada na população
+Esta rotina roda com a distribuição de constantes de eliminação estimadas na população
 assistida, e não com a do gerador. É o que sustenta o achado de que a recomendação de janela
-de coleta depende do perfil populacional: simulações preliminares com parâmetros genéricos
-produziram estimativas substancialmente diferentes para o mesmo efeito.
+de coleta depende do perfil populacional.
 
-O vetor contém 11 valores de constante de eliminação, derivados de casos reais e
-integralmente anonimizados. São constantes farmacocinéticas, sem qualquer identificador,
-data ou dado demográfico associado.
+O vetor contém 11 valores de constante de eliminação, derivados de registros de casos reais e
+integralmente anonimizados. São constantes farmacocinéticas, sem qualquer identificador, data
+ou dado demográfico associado. Por derivarem de registros com concentração única, e não de
+pares de concentrações, são estimativas condicionadas ao modelo populacional em vigor no
+momento do cálculo, e não medidas diretas.
+
+Além da distribuição de constantes de eliminação, a rotina sorteia o volume de distribuição
+verdadeiro de uma lognormal centrada em 0,60 L/kg com coeficiente de variação de 30%. O
+resultado depende desse valor. O instante ótimo permanece na janela de 4 a 5 horas para
+volumes verdadeiros de 0,60 a 1,10 L/kg, mas as magnitudes do erro crescem com ele, e no
+cenário de 1,10 L/kg o erro do protocolo institucional ultrapassa o critério de
+aceitabilidade adotado.
 
 ---
 
@@ -215,12 +236,13 @@ data ou dado demográfico associado.
 
 Estão documentadas no manuscrito e resumidas aqui.
 
-O estudo empregou um único modelo gerador. O modelo de Roberts deriva de infusão contínua,
-e um segundo gerador derivado de administração intermitente fortaleceria o desenho. O
-critério para essa escolha é que a publicação de origem reporte efeitos fixos, variabilidade
-entre sujeitos e erro residual. Sem os três componentes o gerador fica incompleto.
+Os dois modelos geradores derivam de populações críticas europeias, e nenhum deles foi
+derivado de coorte brasileira. O de Roberts deriva de infusão contínua, condição em que o
+volume de distribuição é fracamente identificável. O de Llopis-Salvia deriva de administração
+intermitente, que é a modalidade contemplada pela ferramenta, e tem estrutura de dois
+compartimentos, o que introduz má especificação estrutural além da de parâmetro.
 
-Os intervalos da estimativa com concentração única cobriram de 59,6% a 79,5%, contra 95%
+Os intervalos da estimativa com concentração única cobriram de 69,5% a 82,0%, contra 95%
 nominal, em todos os cenários avaliados. A causa predominante é a discrepância sistemática
 entre o volume populacional e o individual, que não pode ser capturada a partir de uma única
 concentração.
