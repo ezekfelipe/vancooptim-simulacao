@@ -85,8 +85,8 @@ Pelo terminal, sem abrir o R:
 Rscript -e "source('simulacao_vancooptim.R'); rodar_tudo(); calibrar_janela()"
 ```
 
-A sensibilidade da janela de coleta ao volume do gerador roda em arquivo próprio e depende
-do principal estar carregado antes:
+A sensibilidade da janela de coleta ao volume do gerador, que produz a Tabela 12B, roda em
+arquivo próprio e depende do principal estar carregado antes:
 
 ```
 Rscript -e "source('simulacao_vancooptim.R'); source('sensibilidade_vd_janela.R'); sensibilidade_janela()"
@@ -150,13 +150,7 @@ res$sessao
 | `rodar_tudo()`, COMPARAÇÃO | Tabela 9, uma versus duas concentrações |
 | `rodar_tudo()`, TABELA 11 | Tabela 11, desempenho sob o gerador de Llopis-Salvia |
 | `calibrar_janela()` | Tabela 12, erro por momento da coleta |
-| `sensibilidade_janela()` | não tabulada no manuscrito; ver abaixo |
-
-A saída de `sensibilidade_janela()` não corresponde a nenhuma tabela do manuscrito. Versão
-anterior deste README a atribuía a uma Tabela 12B, que não chegou a existir no texto. A
-análise sustenta uma afirmação da seção 3.6, a de que a magnitude do efeito do momento da
-coleta é específica da distribuição de meia-vida da população avaliada, e fica depositada aqui
-como material de apoio a essa afirmação.
+| `sensibilidade_janela()` | Tabela 12B, janela de coleta por volume verdadeiro do gerador |
 
 A Tabela 10, que trata da calibração do σ_obs, foi produzida por rotina separada e não está
 incluída nesta versão do repositório.

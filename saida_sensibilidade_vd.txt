@@ -1,6 +1,6 @@
 
 
-SENSIBILIDADE DA JANELA DE COLETA AO VOLUME VERDADEIRO DO GERADOR
+TABELA 12B — janela de coleta por volume verdadeiro do gerador
 Prior do estimador fixo em 0,70 L/kg | semente 20260812 | réplicas por cenário: 2000 
 h após fim da infusão   0.60 L/kg   0.70 L/kg   0.90 L/kg   1.10 L/kg
 ---------------------------------------------------------------------- 
