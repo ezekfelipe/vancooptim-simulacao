@@ -1,15 +1,16 @@
 cff-version: 1.2.0
 message: "Se este código for utilizado, cite conforme abaixo."
-title: "VancoOptim — código de simulação"
+title: "VancoOptim: código de simulação"
 version: 1.0.0
-date-released: "[A DEFINIR]"
 license: MIT
 type: software
+repository-code: "https://github.com/ezekfelipe/vancooptim-simulacao"
 authors:
   - family-names: "Felipe"
     given-names: "Ezequiel Oliveira"
     affiliation: "Hospital Moriah, São Paulo, SP, Brasil"
-    orcid: "[A DEFINIR]"
+    # Acrescentar quando disponível, no formato de URL exigido pelo esquema:
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
 keywords:
   - vancomicina
   - farmacocinética populacional
@@ -21,3 +22,11 @@ abstract: >-
   pela estimativa bayesiana implementada no VancoOptim, sob mecanismo gerador
   externo à biblioteca de priors da ferramenta. Semente fixa; resultados
   exatamente reproduzíveis.
+
+# Campos a preencher no momento do depósito. Ficaram fora por ora porque o
+# esquema do CFF os valida: `date-released` exige data no formato AAAA-MM-DD e
+# `orcid` exige URL, de modo que um marcador de texto invalida o arquivo inteiro
+# e impede o GitHub de exibir o botão de citação.
+#
+# date-released: "2026-10-23"
+# doi: "10.5281/zenodo.XXXXXXX"   # DOI DE VERSÃO, não o de conceito

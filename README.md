@@ -14,7 +14,8 @@ código-fonte da ferramenta clínica, e não deve ser usado para decisão assist
 | Arquivo | O que é |
 |---|---|
 | `simulacao_vancooptim.R` | Estudo de simulação completo, estruturado pelo arcabouço ADEMP |
-| `goti_referencia.R` | Implementação independente do modelo de Goti 2018, usada como árbitro externo |
+| `sensibilidade_vd_janela.R` | Sensibilidade da janela de coleta ao volume do mecanismo gerador |
+| `goti_referencia.R` | Implementação de referência do modelo de Goti 2018, usada como árbitro aritmético |
 
 ### Por que existe uma implementação de referência
 
@@ -76,6 +77,13 @@ Pelo terminal, sem abrir o R:
 Rscript -e "source('simulacao_vancooptim.R'); rodar_tudo(); calibrar_janela()"
 ```
 
+A sensibilidade da janela de coleta ao volume do gerador, que produz a Tabela 12B, roda em
+arquivo próprio e depende do principal estar carregado antes:
+
+```
+Rscript -e "source('simulacao_vancooptim.R'); source('sensibilidade_vd_janela.R'); sensibilidade_janela()"
+```
+
 No Windows, caso o `Rscript` não esteja no `PATH`:
 
 ```powershell
@@ -127,12 +135,9 @@ res$sessao
 | `rodar_tudo()`, TABELA 7 | Tabela 7, desempenho da estimativa com concentração única |
 | `rodar_tudo()`, TABELA 8 | Tabela 8, volume populacional fixo versus estimado |
 | `rodar_tudo()`, COMPARAÇÃO | Tabela 9, uma versus duas concentrações |
-| `rodar_tudo()`, TABELA 12 | Tabela 11, desempenho sob o gerador de Llopis-Salvia |
+| `rodar_tudo()`, TABELA 11 | Tabela 11, desempenho sob o gerador de Llopis-Salvia |
 | `calibrar_janela()` | Tabela 12, erro por momento da coleta |
-
-O rótulo que o script imprime para o gerador de Llopis-Salvia diz TABELA 12 e corresponde à
-Tabela 11 do manuscrito. A numeração interna do script acompanha uma versão anterior do texto
-e não altera nenhum valor calculado.
+| `sensibilidade_janela()` | Tabela 12B, janela de coleta por volume verdadeiro do gerador |
 
 A Tabela 10, que trata da calibração do σ_obs, foi produzida por rotina separada e não está
 incluída nesta versão do repositório.
@@ -225,8 +230,9 @@ momento do cálculo, e não medidas diretas.
 
 Além da distribuição de constantes de eliminação, a rotina sorteia o volume de distribuição
 verdadeiro de uma lognormal centrada em 0,60 L/kg com coeficiente de variação de 30%. O
-resultado depende desse valor. O instante ótimo permanece na janela de 4 a 5 horas para
-volumes verdadeiros de 0,60 a 1,10 L/kg, mas as magnitudes do erro crescem com ele, e no
+resultado depende desse valor. O `sensibilidade_vd_janela.R` repete a análise sobre quatro
+volumes verdadeiros, mantido o prior do estimador em 0,70 L/kg: o instante ótimo permanece na
+janela de 4 a 5 horas de 0,60 a 1,10 L/kg, mas as magnitudes do erro crescem com ele, e no
 cenário de 1,10 L/kg o erro do protocolo institucional ultrapassa o critério de
 aceitabilidade adotado.
 
