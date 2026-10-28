@@ -1,0 +1,75 @@
+=======================================================================
+VancoOptim — estudo de simulação
+Gerador: Roberts et al. 2011 (externo à biblioteca de priors)
+Semente: 20260812 | Réplicas por cenário: 2000 
+R: R version 4.3.3 (2024-02-29) 
+=======================================================================
+
+TABELA 7 — estimativa com concentração única
+Vd gerador   Coleta        MPE     MdPE     MAPE    MdAPE  Cobertura   Acerto     MC(MAPE)
+-------------------------------------------------------------------------------------------- 
+1.53 L/kg    10 h        14.8%    11.8%    23.0%    17.3%      69.5%    77.0%      ±0.47
+1.53 L/kg    5 h          3.3%     1.5%    17.3%    13.9%      76.8%    83.5%      ±0.33
+1.10 L/kg    10 h         9.8%     7.4%    20.0%    15.2%      74.9%    78.8%      ±0.42
+1.10 L/kg    5 h          2.3%     0.7%    16.9%    13.9%      76.3%    83.4%      ±0.31
+0.90 L/kg    10 h         6.0%     3.6%    17.7%    13.9%      78.5%    81.6%      ±0.38
+0.90 L/kg    5 h          1.0%    -0.7%    16.5%    13.4%      77.3%    82.9%      ±0.30
+0.70 L/kg    10 h        -1.0%    -2.9%    17.7%    14.0%      79.3%    81.1%      ±0.35
+0.70 L/kg    5 h         -1.2%    -2.7%    16.4%    13.6%      77.2%    82.3%      ±0.29
+0.55 L/kg    10 h        -5.5%    -6.9%    18.0%    15.1%      76.9%    80.6%      ±0.36
+0.55 L/kg    5 h         -3.1%    -4.2%    16.6%    13.8%      77.2%    83.6%      ±0.29
+
+
+TABELA 8 — volume populacional fixo versus estimado (MAPE)
+Vd gerador   Coleta        Vd fixo  Vd estimado
+------------------------------------------------ 
+1.53 L/kg    10 h            22.7%        23.7%
+1.53 L/kg    5 h             17.6%        19.3%
+1.10 L/kg    10 h            19.3%        20.5%
+1.10 L/kg    5 h             17.1%        19.0%
+0.90 L/kg    10 h            17.9%        19.1%
+0.90 L/kg    5 h             16.7%        18.7%
+0.70 L/kg    10 h            17.4%        18.0%
+0.70 L/kg    5 h             16.4%        18.4%
+0.55 L/kg    10 h            18.2%        18.1%
+0.55 L/kg    5 h             16.5%        18.3%
+
+
+COMPARAÇÃO — um ponto versus dois pontos (MAPE)
+Vd gerador   Coleta        1 ponto     2 pontos
+------------------------------------------------ 
+1.53 L/kg    10 h            22.3%        14.1%
+0.90 L/kg    10 h            17.7%        14.2%
+0.55 L/kg    10 h            17.7%        13.9%
+
+
+TABELA 11 — gerador de Llopis-Salvia (intermitente, 2 compartimentos)
+Método    Coleta          MPE     MdPE     MAPE    MdAPE  Cobertura     MC(MAPE)
+-------------------------------------------------------------------------------- 
+1 ponto    10 h           1.5%     0.8%    15.1%    13.0%      82.0%      ±0.25
+1 ponto    5 h           -8.7%   -10.1%    17.3%    15.0%      72.3%      ±0.28
+2 pontos   10 h           4.8%     4.1%    14.5%    11.9%       —%      ±0.26
+2 pontos   5 h           -3.6%    -4.3%    13.7%    11.8%       —%      ±0.26
+
+
+NOTA: MC(MAPE) é o erro-padrão de Monte Carlo — a imprecisão da
+própria simulação. Valores abaixo de 1 ponto percentual indicam que
+o número de réplicas é suficiente para as comparações pretendidas.
+
+
+CALIBRAÇÃO DA JANELA DE COLETA — população local
+Meia-vida observada (n = 11 ): mediana 5.8 h | quartis 4.9 - 9.7 h
+
+Regime: 1000 mg q12h, infusão de 2 h
+h após fim da infusão         MAPE     MC(MAPE)
+-------------------------------------------------- 
+1 h                          13.43%      ±0.26
+2 h                          11.04%      ±0.22
+3 h                           9.61%      ±0.20
+4 h                           8.58%      ±0.17
+5 h                           8.52%      ±0.16
+6 h                           9.07%      ±0.17
+7 h                           9.79%      ±0.17
+8 h                          10.18%      ±0.18
+9 h                          11.28%      ±0.19
+10 h                         11.70%      ±0.20

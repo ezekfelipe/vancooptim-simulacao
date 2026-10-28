@@ -16,6 +16,8 @@ código-fonte da ferramenta clínica, e não deve ser usado para decisão assist
 | `simulacao_vancooptim.R` | Estudo de simulação completo, estruturado pelo arcabouço ADEMP |
 | `sensibilidade_vd_janela.R` | Sensibilidade da janela de coleta ao volume do mecanismo gerador |
 | `goti_referencia.R` | Implementação de referência do modelo de Goti 2018, usada como árbitro aritmético |
+| `saida_simulacao.txt` | Saída de `rodar_tudo()` e `calibrar_janela()`, depositada para conferência |
+| `saida_sensibilidade_vd.txt` | Saída de `sensibilidade_janela()`, depositada para conferência |
 
 ### Por que existe uma implementação de referência
 
@@ -25,10 +27,16 @@ Serve como terceira implementação, para confronto com o motor de cálculo e co
 por recálculo manual.
 
 O alcance dessa verificação tem um limite, declarado no próprio arquivo. Os parâmetros
-populacionais foram transcritos da implementação do VancoOptim e não conferidos contra a
-publicação original de Goti e colaboradores. Uma implementação de referência que herda os
-parâmetros da ferramenta avaliada verifica a aritmética, não a fidelidade à fonte. A
-conferência dos valores contra o artigo original é passo pendente.
+populacionais foram transcritos da implementação do VancoOptim, de modo que esta
+implementação verifica a aritmética da estimação, e não a fidelidade dos valores à fonte. São
+duas perguntas distintas, e esta responde à primeira.
+
+A segunda foi respondida por conferência item a item contra a Tabela 2 da publicação
+original, conduzida em 23/10/2026, com veredicto de conformidade para todos os parâmetros do
+modelo de Goti. A mesma conferência, estendida aos cinco modelos publicados da biblioteca,
+encontrou defeito em outros dois, o coeficiente de variação do clearance no modelo de Adane e
+o intercepto não renal do clearance no modelo de Lamarre. Nenhum dos dois incide sobre o
+modelo implementado aqui.
 
 A justificativa é metodológica. O recálculo manual não discrimina erros de convenção, porque
 quem recalcula adota as mesmas convenções de quem implementou. Foi exatamente uma divergência
@@ -77,8 +85,8 @@ Pelo terminal, sem abrir o R:
 Rscript -e "source('simulacao_vancooptim.R'); rodar_tudo(); calibrar_janela()"
 ```
 
-A sensibilidade da janela de coleta ao volume do gerador, que produz a Tabela 12B, roda em
-arquivo próprio e depende do principal estar carregado antes:
+A sensibilidade da janela de coleta ao volume do gerador roda em arquivo próprio e depende
+do principal estar carregado antes:
 
 ```
 Rscript -e "source('simulacao_vancooptim.R'); source('sensibilidade_vd_janela.R'); sensibilidade_janela()"
@@ -119,6 +127,11 @@ Executar o script sem alterá-la produz exatamente os mesmos números publicados
 manuscrito. Se algum valor divergir, verifique a versão de R: mudanças no gerador de números
 pseudoaleatórios entre versões maiores podem alterar as sequências.
 
+As saídas depositadas neste repositório foram geradas sob R 4.3.3 em Linux. Os 164 valores
+numéricos que elas contêm coincidem, dígito a dígito, com a execução sob R 4.6.1 em Windows
+que produziu as tabelas do manuscrito. A equivalência entre as duas versões, afirmada acima,
+está portanto conferida e não apenas declarada.
+
 Ao reportar resultados, registre também a saída de `sessionInfo()`:
 
 ```r
@@ -137,7 +150,13 @@ res$sessao
 | `rodar_tudo()`, COMPARAÇÃO | Tabela 9, uma versus duas concentrações |
 | `rodar_tudo()`, TABELA 11 | Tabela 11, desempenho sob o gerador de Llopis-Salvia |
 | `calibrar_janela()` | Tabela 12, erro por momento da coleta |
-| `sensibilidade_janela()` | Tabela 12B, janela de coleta por volume verdadeiro do gerador |
+| `sensibilidade_janela()` | não tabulada no manuscrito; ver abaixo |
+
+A saída de `sensibilidade_janela()` não corresponde a nenhuma tabela do manuscrito. Versão
+anterior deste README a atribuía a uma Tabela 12B, que não chegou a existir no texto. A
+análise sustenta uma afirmação da seção 3.6, a de que a magnitude do efeito do momento da
+coleta é específica da distribuição de meia-vida da população avaliada, e fica depositada aqui
+como material de apoio a essa afirmação.
 
 A Tabela 10, que trata da calibração do σ_obs, foi produzida por rotina separada e não está
 incluída nesta versão do repositório.

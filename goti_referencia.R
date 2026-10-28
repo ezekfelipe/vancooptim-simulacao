@@ -16,20 +16,31 @@
 # identificou, em 08/2026, um erro de conversão de tempo no ramo bicompartimental
 # do VancoOptim.
 #
-# LIMITE DESTA VERIFICAÇÃO
+# ALCANCE DESTA VERIFICAÇÃO
 # Os parâmetros populacionais abaixo foram transcritos da implementação do
-# VancoOptim, e NÃO conferidos contra a publicação original de Goti e
-# colaboradores. Uma implementação de referência que herda os parâmetros da
-# ferramenta avaliada verifica a ARITMÉTICA, não a fidelidade à fonte. Conferir
-# os valores contra o artigo original é passo pendente e está sinalizado abaixo.
+# VancoOptim. Uma implementação de referência que herda os parâmetros da
+# ferramenta avaliada verifica a ARITMÉTICA da estimação, e não a fidelidade dos
+# valores à fonte: são duas perguntas distintas, e esta implementação responde à
+# primeira.
+#
+# A segunda foi respondida em 23/10/2026, por conferência item a item contra a
+# Tabela 2 da publicação original, com veredicto de CONFORMIDADE para todos os
+# parâmetros do bloco GOTI. A mesma conferência, estendida aos cinco modelos
+# publicados da biblioteca, encontrou defeito em outros dois: o coeficiente de
+# variação do clearance no modelo de Adane e o intercepto não renal do clearance
+# no modelo de Lamarre. Nenhum dos dois incide sobre o modelo implementado aqui.
 #
 # Uso:   source("goti_referencia.R")
 #        exemplo()
 # =============================================================================
 
 # ── PARÂMETROS POPULACIONAIS ────────────────────────────────────────────────
-# [A CONFERIR contra Goti V, Chaturvedula A, Fossler MJ, Mok S, Jacob JT.
-#  Ther Drug Monit. 2018;40(2):212-221.]
+# Conferidos em 23/10/2026 contra a Tabela 2 de Goti V, Chaturvedula A,
+# Fossler MJ, Mok S, Jacob JT. Ther Drug Monit. 2018;40(2):212-221. Todos
+# conferem, incluindo os fatores de hemodiálise sobre o clearance e sobre o
+# volume central. A variabilidade entre sujeitos do volume periférico, de 57,1%,
+# é publicada mas não é empregada, porque Vp e Q permanecem fixos nos valores
+# populacionais.
 
 GOTI <- list(
   cl_tipico   = 4.5,    # L/h, para ClCr de 120 mL/min
@@ -281,8 +292,4 @@ demo_erro_tempo <- function() {
 # =============================================================================
 # Para executar:
 #   source("goti_referencia.R"); exemplo(); demo_erro_tempo()
-#
-# PENDENTE: conferir os parâmetros do bloco GOTI contra a publicação original.
-# Enquanto isso não for feito, esta implementação verifica a aritmética da
-# estimação, e não a fidelidade dos valores populacionais à fonte.
 # =============================================================================

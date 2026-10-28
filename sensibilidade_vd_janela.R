@@ -1,6 +1,6 @@
 # =============================================================================
 # VancoOptim — sensibilidade da janela de coleta ao volume de distribuição
-#              verdadeiro do mecanismo gerador (Tabela 12B do manuscrito)
+#              verdadeiro do mecanismo gerador (análise de apoio à seção 3.6)
 #
 # PERGUNTA: a recomendação de antecipar a coleta depende do volume de
 # distribuição assumido na geração dos pacientes?
@@ -68,13 +68,17 @@ janela_por_vd <- function(vd_ger, tau = 12, tinf = 2,
   saida
 }
 
-#' Imprime a Tabela 12B do manuscrito.
+#' Imprime a tabela de sensibilidade.
+#'
+#' O rótulo impresso não referencia tabela do manuscrito: esta análise não
+#' chegou a ser tabulada no texto, e versão anterior deste arquivo a anunciava
+#' como Tabela 12B, que não existe.
 sensibilidade_janela <- function(cenarios = c(0.60, 0.70, 0.90, 1.10),
                                  tau = 12, tinf = 2) {
 
   res <- sapply(cenarios, janela_por_vd, tau = tau, tinf = tinf)
 
-  cat("\n\nTABELA 12B — janela de coleta por volume verdadeiro do gerador\n")
+  cat("\n\nSENSIBILIDADE DA JANELA DE COLETA AO VOLUME VERDADEIRO DO GERADOR\n")
   cat("Prior do estimador fixo em 0,70 L/kg | semente", SEMENTE,
       "| réplicas por cenário:", N_REPLICAS, "\n")
   cat(sprintf("%-22s", "h após fim da infusão"))
