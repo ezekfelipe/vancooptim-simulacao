@@ -496,8 +496,10 @@ rodar_tudo <- function() {
                 paste0(fmt(vd, 2), " L/kg"), "10 h", fmt(a$mape), fmt(b$mape)))
   }
 
-  # ── Tabela 12: segundo gerador, derivado de administração intermitente
-  cat("\n\nTABELA 12 — gerador de Llopis-Salvia (intermitente, 2 compartimentos)\n")
+  # ── Tabela 11 do manuscrito: segundo gerador, derivado de administração
+  # intermitente. A numeração impressa aqui acompanhava uma versão anterior do
+  # texto, em que esta era a Tabela 12; alinhada ao manuscrito corrente.
+  cat("\n\nTABELA 11 — gerador de Llopis-Salvia (intermitente, 2 compartimentos)\n")
   cat(sprintf("%-10s %-10s %8s %8s %8s %8s %10s %12s\n",
               "Método", "Coleta", "MPE", "MdPE", "MAPE", "MdAPE", "Cobertura", "MC(MAPE)"))
   cat(strrep("-", 80), "\n")
@@ -520,7 +522,7 @@ rodar_tudo <- function() {
   cat("própria simulação. Valores abaixo de 1 ponto percentual indicam que\n")
   cat("o número de réplicas é suficiente para as comparações pretendidas.\n")
 
-  invisible(list(tabela7 = t7, tabela8 = t8, comparacao = cmp, tabela12 = t12,
+  invisible(list(tabela7 = t7, tabela8 = t8, comparacao = cmp, tabela11 = t12,
                  semente = SEMENTE, replicas = N_REPLICAS,
                  sessao = sessionInfo()))
 }
