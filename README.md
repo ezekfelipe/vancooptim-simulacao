@@ -16,6 +16,8 @@ código-fonte da ferramenta clínica, e não deve ser usado para decisão assist
 | `simulacao_vancooptim.R` | Estudo de simulação completo, estruturado pelo arcabouço ADEMP |
 | `sensibilidade_vd_janela.R` | Sensibilidade da janela de coleta ao volume do mecanismo gerador |
 | `goti_referencia.R` | Implementação de referência do modelo de Goti 2018, usada como árbitro aritmético |
+| `saida_simulacao.txt` | Saída de `rodar_tudo()` e `calibrar_janela()`, depositada para conferência |
+| `saida_sensibilidade_vd.txt` | Saída de `sensibilidade_janela()`, depositada para conferência |
 
 ### Por que existe uma implementação de referência
 
@@ -25,10 +27,16 @@ Serve como terceira implementação, para confronto com o motor de cálculo e co
 por recálculo manual.
 
 O alcance dessa verificação tem um limite, declarado no próprio arquivo. Os parâmetros
-populacionais foram transcritos da implementação do VancoOptim e não conferidos contra a
-publicação original de Goti e colaboradores. Uma implementação de referência que herda os
-parâmetros da ferramenta avaliada verifica a aritmética, não a fidelidade à fonte. A
-conferência dos valores contra o artigo original é passo pendente.
+populacionais foram transcritos da implementação do VancoOptim, de modo que esta
+implementação verifica a aritmética da estimação, e não a fidelidade dos valores à fonte. São
+duas perguntas distintas, e esta responde à primeira.
+
+A segunda foi respondida por conferência item a item contra a Tabela 2 da publicação
+original, conduzida em 23/10/2026, com veredicto de conformidade para todos os parâmetros do
+modelo de Goti. A mesma conferência, estendida aos cinco modelos publicados da biblioteca,
+encontrou defeito em outros dois, o coeficiente de variação do clearance no modelo de Adane e
+o intercepto não renal do clearance no modelo de Lamarre. Nenhum dos dois incide sobre o
+modelo implementado aqui.
 
 A justificativa é metodológica. O recálculo manual não discrimina erros de convenção, porque
 quem recalcula adota as mesmas convenções de quem implementou. Foi exatamente uma divergência
@@ -118,6 +126,11 @@ SEMENTE <- 20260812L
 Executar o script sem alterá-la produz exatamente os mesmos números publicados no
 manuscrito. Se algum valor divergir, verifique a versão de R: mudanças no gerador de números
 pseudoaleatórios entre versões maiores podem alterar as sequências.
+
+As saídas depositadas neste repositório foram geradas sob R 4.3.3 em Linux. Os 164 valores
+numéricos que elas contêm coincidem, dígito a dígito, com a execução sob R 4.6.1 em Windows
+que produziu as tabelas do manuscrito. A equivalência entre as duas versões, afirmada acima,
+está portanto conferida e não apenas declarada.
 
 Ao reportar resultados, registre também a saída de `sessionInfo()`:
 
@@ -224,17 +237,31 @@ de coleta depende do perfil populacional.
 
 O vetor contém 11 valores de constante de eliminação, derivados de registros de casos reais e
 integralmente anonimizados. São constantes farmacocinéticas, sem qualquer identificador, data
-ou dado demográfico associado. Por derivarem de registros com concentração única, e não de
-pares de concentrações, são estimativas condicionadas ao modelo populacional em vigor no
-momento do cálculo, e não medidas diretas.
+ou dado demográfico associado.
+
+Por derivarem de registros com concentração única, e não de pares de concentrações, são
+estimativas condicionadas ao modelo populacional em vigor no momento do cálculo, e não
+medidas diretas. Convém precisar o alcance disso: naquela rota o volume fica fixo no valor
+populacional e apenas o clearance é estimado, de modo que `k = CL_estimado /
+Vd_populacional`. O volume em vigor quando esses valores foram calculados era a escada de
+0,50 a 0,65 L/kg, que o projeto depois concluiu estar mal centrada. Eles carregam, portanto,
+um prior superado, e nenhuma escolha de volume para o gerador desfaz isso. Reextraí-los sob o
+prior vigente é passo pendente.
 
 Além da distribuição de constantes de eliminação, a rotina sorteia o volume de distribuição
-verdadeiro de uma lognormal centrada em 0,60 L/kg com coeficiente de variação de 30%. O
-resultado depende desse valor. O `sensibilidade_vd_janela.R` repete a análise sobre quatro
-volumes verdadeiros, mantido o prior do estimador em 0,70 L/kg: o instante ótimo permanece na
-janela de 4 a 5 horas de 0,60 a 1,10 L/kg, mas as magnitudes do erro crescem com ele, e no
-cenário de 1,10 L/kg o erro do protocolo institucional ultrapassa o critério de
-aceitabilidade adotado.
+verdadeiro de uma lognormal centrada no parâmetro `vd_ger`, com coeficiente de variação de
+30%. O valor padrão é 0,70 L/kg, que é o aceito para adultos na literatura clínica e o menor
+volume total em adultos que o acervo do projeto sustenta.
+
+Até 28/10/2026 esse valor era 0,60 L/kg, embutido no corpo da função. Ele entrou quando o
+`prior_estratificado` daqui ainda era a escada antiga, e não acompanhou a calibração do prior
+para 0,70 L/kg: o estimador, que ficava 17% abaixo do gerador, passou a ficar 17% acima, sem
+que a inversão fosse decidida. O cabeçalho da função registra o episódio.
+
+O `sensibilidade_vd_janela.R` repete a análise sobre quatro volumes verdadeiros, mantido o
+prior do estimador em 0,70 L/kg: o instante ótimo permanece na janela de 4 a 5 horas de 0,60
+a 1,10 L/kg, mas as magnitudes do erro crescem com ele, e no cenário de 1,10 L/kg o erro do
+protocolo institucional ultrapassa o critério de aceitabilidade adotado.
 
 ---
 

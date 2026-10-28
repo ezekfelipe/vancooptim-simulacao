@@ -534,13 +534,43 @@ rodar_tudo <- function() {
 # a do gerador de Roberts. É o que sustenta o achado de que a recomendação de
 # janela depende do perfil populacional.
 #
+# VOLUME VERDADEIRO DO GERADOR — corrigido em 28/10/2026, de 0,60 para 0,70
+# L/kg, e promovido de constante embutida a PARÂMETRO declarado da função.
+#
+# MOTIVO. O 0,60 entrou com a primeira versão deste arquivo, em 08/2026, quando
+# o `prior_estratificado` daqui ainda era a escada de 0,50 a 0,65 L/kg e esta
+# rotina o invocava com ClCr 90, recebendo 0,50. O desenho era, portanto,
+# estimador 17% ABAIXO do gerador. Em 10/2026 o prior foi calibrado para 0,70
+# plano, e esta linha não acompanhou: o estimador passou a ficar 17% ACIMA do
+# gerador, inversão que ninguém decidiu.
+#
+# POR QUE 0,70 E NÃO 0,60. É o valor aceito para adultos na literatura clínica,
+# e é o menor volume total em adultos que o acervo do projeto sustenta (Matzke).
+# Abaixo dele só aparece o Adane, com 0,51 L/kg, específico para obesos, e
+# valores de 0,5 a 0,6 que alguns serviços aplicam em obesidade mórbida sem
+# respaldo demonstrado. Manter o gerador em 0,60 faria a análise principal
+# repousar sobre volume que o próprio manuscrito argumenta estar fora da faixa
+# publicada.
+#
+# O 0,60 permanece disponível como cenário de sensibilidade, em
+# `sensibilidade_vd_janela.R`, junto de 0,90 e 1,10 L/kg.
+#
+# LIMITE QUE ESTA CORREÇÃO NÃO RESOLVE. As constantes de eliminação abaixo vêm
+# da rota de concentração única, que fixa o volume no populacional e estima
+# apenas o clearance, de modo que k = CL_estimado / Vd_populacional. O volume
+# em vigor quando foram calculadas era a escada antiga, que o projeto depois
+# concluiu estar mal centrada. Elas são, portanto, condicionadas a um prior
+# superado, e nenhuma escolha de `vd_ger` desfaz isso. Reextraí-las sob o prior
+# vigente é passo pendente.
+#
 # [A DEFINIR] Substituir por dados atualizados quando a coorte crescer.
 # =============================================================================
 
 K_OBSERVADOS_MORIAH <- c(0.1638, 0.0783, 0.0654, 0.1770, 0.1251,
                          0.1220, 0.1720, 0.0600, 0.0809, 0.0392, 0.1191)
 
-calibrar_janela <- function(tau = 12, tinf = 2, n = N_REPLICAS, dose = 1000) {
+calibrar_janela <- function(vd_ger = 0.70, tau = 12, tinf = 2,
+                            n = N_REPLICAS, dose = 1000) {
   set.seed(SEMENTE + 3000L)
 
   t12 <- sort(log(2) / K_OBSERVADOS_MORIAH)
@@ -548,7 +578,8 @@ calibrar_janela <- function(tau = 12, tinf = 2, n = N_REPLICAS, dose = 1000) {
   cat("Meia-vida observada (n =", length(t12), "): mediana",
       fmt(median(t12)), "h | quartis", fmt(quantile(t12, 0.25)), "-",
       fmt(quantile(t12, 0.75)), "h\n\n")
-  cat(sprintf("Regime: %d mg q%dh, infusão de %d h\n", dose, tau, tinf))
+  cat(sprintf("Regime: %d mg q%dh, infusão de %d h | Vd verdadeiro do gerador: %.2f L/kg\n",
+              dose, tau, tinf, vd_ger))
   cat(sprintf("%-22s %12s %12s\n", "h após fim da infusão", "MAPE", "MC(MAPE)"))
   cat(strrep("-", 50), "\n")
 
@@ -559,7 +590,7 @@ calibrar_janela <- function(tau = 12, tinf = 2, n = N_REPLICAS, dose = 1000) {
       peso <- max(35, rnorm(1, COORTE$peso_media, COORTE$peso_dp))
       k_base <- sample(K_OBSERVADOS_MORIAH, 1)
       k_v <- rlnorm_cv(1, k_base, 0.20)
-      vd_v <- rlnorm_cv(1, 0.60 * peso, 0.30)
+      vd_v <- rlnorm_cv(1, vd_ger * peso, 0.30)
       cl_v <- k_v * vd_v
       auc_v <- dose * (24 / tau) / cl_v
 
