@@ -60,16 +60,16 @@ o número de réplicas é suficiente para as comparações pretendidas.
 CALIBRAÇÃO DA JANELA DE COLETA — população local
 Meia-vida observada (n = 11 ): mediana 5.8 h | quartis 4.9 - 9.7 h
 
-Regime: 1000 mg q12h, infusão de 2 h
+Regime: 1000 mg q12h, infusão de 2 h | Vd verdadeiro do gerador: 0.70 L/kg
 h após fim da infusão         MAPE     MC(MAPE)
 -------------------------------------------------- 
-1 h                          13.43%      ±0.26
-2 h                          11.04%      ±0.22
-3 h                           9.61%      ±0.20
-4 h                           8.58%      ±0.17
-5 h                           8.52%      ±0.16
-6 h                           9.07%      ±0.17
-7 h                           9.79%      ±0.17
-8 h                          10.18%      ±0.18
-9 h                          11.28%      ±0.19
-10 h                         11.70%      ±0.20
+1 h                          14.41%      ±0.28
+2 h                          12.36%      ±0.25
+3 h                          11.10%      ±0.24
+4 h                           9.79%      ±0.20
+5 h                           9.54%      ±0.19
+6 h                           9.64%      ±0.21
+7 h                          10.08%      ±0.22
+8 h                          10.57%      ±0.23
+9 h                          11.28%      ±0.24
+10 h                         11.56%      ±0.25

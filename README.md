@@ -237,17 +237,31 @@ de coleta depende do perfil populacional.
 
 O vetor contém 11 valores de constante de eliminação, derivados de registros de casos reais e
 integralmente anonimizados. São constantes farmacocinéticas, sem qualquer identificador, data
-ou dado demográfico associado. Por derivarem de registros com concentração única, e não de
-pares de concentrações, são estimativas condicionadas ao modelo populacional em vigor no
-momento do cálculo, e não medidas diretas.
+ou dado demográfico associado.
+
+Por derivarem de registros com concentração única, e não de pares de concentrações, são
+estimativas condicionadas ao modelo populacional em vigor no momento do cálculo, e não
+medidas diretas. Convém precisar o alcance disso: naquela rota o volume fica fixo no valor
+populacional e apenas o clearance é estimado, de modo que `k = CL_estimado /
+Vd_populacional`. O volume em vigor quando esses valores foram calculados era a escada de
+0,50 a 0,65 L/kg, que o projeto depois concluiu estar mal centrada. Eles carregam, portanto,
+um prior superado, e nenhuma escolha de volume para o gerador desfaz isso. Reextraí-los sob o
+prior vigente é passo pendente.
 
 Além da distribuição de constantes de eliminação, a rotina sorteia o volume de distribuição
-verdadeiro de uma lognormal centrada em 0,60 L/kg com coeficiente de variação de 30%. O
-resultado depende desse valor. O `sensibilidade_vd_janela.R` repete a análise sobre quatro
-volumes verdadeiros, mantido o prior do estimador em 0,70 L/kg: o instante ótimo permanece na
-janela de 4 a 5 horas de 0,60 a 1,10 L/kg, mas as magnitudes do erro crescem com ele, e no
-cenário de 1,10 L/kg o erro do protocolo institucional ultrapassa o critério de
-aceitabilidade adotado.
+verdadeiro de uma lognormal centrada no parâmetro `vd_ger`, com coeficiente de variação de
+30%. O valor padrão é 0,70 L/kg, que é o aceito para adultos na literatura clínica e o menor
+volume total em adultos que o acervo do projeto sustenta.
+
+Até 28/10/2026 esse valor era 0,60 L/kg, embutido no corpo da função. Ele entrou quando o
+`prior_estratificado` daqui ainda era a escada antiga, e não acompanhou a calibração do prior
+para 0,70 L/kg: o estimador, que ficava 17% abaixo do gerador, passou a ficar 17% acima, sem
+que a inversão fosse decidida. O cabeçalho da função registra o episódio.
+
+O `sensibilidade_vd_janela.R` repete a análise sobre quatro volumes verdadeiros, mantido o
+prior do estimador em 0,70 L/kg: o instante ótimo permanece na janela de 4 a 5 horas de 0,60
+a 1,10 L/kg, mas as magnitudes do erro crescem com ele, e no cenário de 1,10 L/kg o erro do
+protocolo institucional ultrapassa o critério de aceitabilidade adotado.
 
 ---
 
