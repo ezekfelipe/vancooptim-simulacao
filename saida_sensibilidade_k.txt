@@ -1,0 +1,65 @@
+SENSIBILIDADE DA JANELA ÀS CONSTANTES DE ELIMINAÇÃO
+Semente 20263812 | réplicas 2000 
+
+PARTE 1 — FATOR DE CORREÇÃO k_reextraido / k_publicado
+  combinações avaliadas: 2140
+  mediana 0.8390 | quartis 0.7964 a 0.8759 | faixa 0.6796 a 0.9396
+
+  Por faixa de ClCr, que é o que determinava o volume antigo:
+    ClCr  20 | Vd 0.65 -> 0,70 | n  312 | mediana 0.9302 | 0.9192 a 0.9396
+    ClCr  45 | Vd 0.60 -> 0,70 | n  697 | mediana 0.8694 | 0.8311 a 0.9087
+    ClCr  75 | Vd 0.55 -> 0,70 | n  691 | mediana 0.8135 | 0.7402 a 0.8745
+    ClCr 100 | Vd 0.50 -> 0,70 | n  440 | mediana 0.7597 | 0.6796 a 0.8394
+
+
+PARTE 2 — A JANELA SOB CADA FATOR
+fator      t1/2 (h)  ótimo (h)      MAPE        9 h   penalidade
+---------------------------------------------------------------- 
+1.00            5.8           5     9.54%     11.28%     +1.74 pp
+0.94            6.2           5     9.16%     10.78%     +1.62 pp
+0.88            6.6           5     8.80%     10.32%     +1.52 pp
+0.84            6.9           5     8.58%     10.05%     +1.46 pp
+0.80            7.3           5     8.38%      9.79%     +1.42 pp
+0.68            8.6           5     7.91%      9.12%     +1.22 pp
+
+MAPE por hora após o fim da infusão, em cada fator:
+h             1.00      0.94      0.88      0.84      0.80      0.68
+1           14.41%    13.37%    12.43%    11.88%    11.40%    10.39%
+2           12.36%    11.59%    10.89%    10.48%    10.10%     9.27%
+3           11.10%    10.50%     9.95%     9.62%     9.32%     8.69%
+4            9.79%     9.37%     8.98%     8.76%     8.56%     8.12%
+5            9.54%     9.16%     8.80%     8.58%     8.38%     7.91%
+6            9.64%     9.30%     8.99%     8.80%     8.63%     8.25%
+7           10.08%     9.69%     9.34%     9.12%     8.92%     8.47%
+8           10.57%    10.12%     9.72%     9.47%     9.24%     8.65%
+9           11.28%    10.78%    10.32%    10.05%     9.79%     9.12%
+10          11.56%    11.04%    10.56%    10.26%     9.98%     9.28%
+
+
+LEITURA
+O instante ótimo é 5 horas em toda a faixa do fator de correção. A
+penalidade de coletar às 9 horas permanece entre 1,2 e 1,8 pontos
+percentuais. O nível absoluto do erro cai com o fator, porque meias-vidas
+maiores achatam o perfil e tornam a estimativa menos sensível ao momento
+da coleta. A reextração, portanto, deslocaria o nível reportado na Tabela
+12 e não a posição do ótimo nem a magnitude da penalidade do protocolo.
+
+R version 4.3.3 (2024-02-29)
+Platform: x86_64-pc-linux-gnu (64-bit)
+Running under: Ubuntu 24.04.5 LTS
+
+Matrix products: default
+BLAS:   /usr/lib/x86_64-linux-gnu/blas/libblas.so.3.12.0 
+LAPACK: /usr/lib/x86_64-linux-gnu/lapack/liblapack.so.3.12.0
+
+locale:
+[1] C
+
+time zone: America/Sao_Paulo
+tzcode source: system (glibc)
+
+attached base packages:
+[1] stats     graphics  grDevices utils     datasets  methods   base     
+
+loaded via a namespace (and not attached):
+[1] compiler_4.3.3

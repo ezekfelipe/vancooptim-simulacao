@@ -15,9 +15,12 @@ código-fonte da ferramenta clínica, e não deve ser usado para decisão assist
 |---|---|
 | `simulacao_vancooptim.R` | Estudo de simulação completo, estruturado pelo arcabouço ADEMP |
 | `sensibilidade_vd_janela.R` | Sensibilidade da janela de coleta ao volume do mecanismo gerador |
+| `sensibilidade_k_janela.R` | Sensibilidade da janela às constantes de eliminação, e o fator de correção que a reextração aplicaria |
+| `reextrair_k.R` | Reextrai as constantes a partir de planilha local desidentificada. Roda na instituição, nunca aqui |
 | `goti_referencia.R` | Implementação de referência do modelo de Goti 2018, usada como árbitro aritmético |
 | `saida_simulacao.txt` | Saída de `rodar_tudo()` e `calibrar_janela()`, depositada para conferência |
 | `saida_sensibilidade_vd.txt` | Saída de `sensibilidade_janela()`, depositada para conferência |
+| `saida_sensibilidade_k.txt` | Saída de `rodar()` de `sensibilidade_k_janela.R`, depositada para conferência |
 | `saida_comparacao_modelos.txt` | Saída da comparação entre modelos da seção 3.8, cujo código não integra este repositório |
 
 ### Por que existe uma implementação de referência
@@ -91,6 +94,12 @@ arquivo próprio e depende do principal estar carregado antes:
 
 ```
 Rscript -e "source('simulacao_vancooptim.R'); source('sensibilidade_vd_janela.R'); sensibilidade_janela()"
+```
+
+A sensibilidade da janela às constantes de eliminação carrega o principal por conta própria:
+
+```
+Rscript -e "source('sensibilidade_k_janela.R'); invisible(rodar())"
 ```
 
 No Windows, caso o `Rscript` não esteja no `PATH`:
@@ -253,8 +262,28 @@ medidas diretas. Convém precisar o alcance disso: naquela rota o volume fica fi
 populacional e apenas o clearance é estimado, de modo que `k = CL_estimado /
 Vd_populacional`. O volume em vigor quando esses valores foram calculados era a escada de
 0,50 a 0,65 L/kg, que o projeto depois concluiu estar mal centrada. Eles carregam, portanto,
-um prior superado, e nenhuma escolha de volume para o gerador desfaz isso. Reextraí-los sob o
-prior vigente é passo pendente.
+um prior superado, e nenhuma escolha de volume para o gerador desfaz isso.
+
+**Quanto isso pesa, medido em 29/10/2026.** `sensibilidade_k_janela.R` responde à pergunta que
+não exige os registros da instituição. Para cada constante publicada, inverte a MAP sob o prior
+superado para recuperar a concentração observada que a produziria, reajusta essa mesma
+concentração sob o prior vigente e devolve o fator de correção. Em 2.140 combinações de função
+renal, peso, dose, intervalo e momento de coleta, a mediana é 0,839, os quartis 0,796 a 0,876 e
+a faixa 0,680 a 0,940. O fator é menor que 1 porque o denominador cresce mais do que o
+numerador: o volume passa de 0,50-0,65 para 0,70 L/kg, e a MAP reestima um clearance apenas um
+pouco maior.
+
+Reexecutada a calibração com as constantes multiplicadas por cada fator dessa faixa, **o
+instante ótimo permanece em 5 horas nos seis cenários** e a penalidade do protocolo de 9 horas
+fica entre 1,22 e 1,74 pontos percentuais. O nível absoluto do erro cai, de 9,54% para até
+7,91% no ótimo, porque meias-vidas maiores achatam o perfil. A reextração deslocaria, portanto,
+o nível reportado na Tabela 12, e não a posição do ótimo nem a magnitude da penalidade.
+
+**Como reextrair.** `reextrair_k.R` faz isso a partir de um CSV desidentificado, com peso,
+clearance de creatinina, dose, intervalo, duração da infusão, momento da coleta e concentração,
+e recusa o arquivo se ele trouxer coluna de nome, prontuário, registro ou data. Roda na máquina
+de quem tem acesso legítimo aos registros, e dali sai apenas o vetor de onze números. O arquivo
+de entrada não é versionado.
 
 Além da distribuição de constantes de eliminação, a rotina sorteia o volume de distribuição
 verdadeiro de uma lognormal centrada no parâmetro `vd_ger`, com coeficiente de variação de
