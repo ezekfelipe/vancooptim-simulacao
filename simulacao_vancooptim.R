@@ -560,10 +560,27 @@ rodar_tudo <- function() {
 # apenas o clearance, de modo que k = CL_estimado / Vd_populacional. O volume
 # em vigor quando foram calculadas era a escada antiga, que o projeto depois
 # concluiu estar mal centrada. Elas são, portanto, condicionadas a um prior
-# superado, e nenhuma escolha de `vd_ger` desfaz isso. Reextraí-las sob o prior
-# vigente é passo pendente.
+# superado, e nenhuma escolha de `vd_ger` desfaz isso.
 #
-# [A DEFINIR] Substituir por dados atualizados quando a coorte crescer.
+# QUANTO ISSO PESA, MEDIDO EM 29/10/2026. `sensibilidade_k_janela.R` inverte a
+# MAP sob o prior superado para recuperar a concentração que produziria cada
+# constante, reajusta essa concentração sob o prior vigente e devolve o fator
+# de correção: mediana 0,839, quartis 0,796 a 0,876, faixa 0,680 a 0,940 em
+# 2.140 combinações de função renal, peso, dose, intervalo e momento de coleta.
+# O fator é menor que 1 porque o denominador cresce mais do que o numerador: o
+# volume passa de 0,50-0,65 para 0,70 L/kg, e a MAP reestima um clearance
+# apenas um pouco maior.
+#
+# Reexecutando a calibração da janela com as constantes multiplicadas por cada
+# fator dessa faixa, o instante ótimo permanece em 5 horas nos seis cenários e
+# a penalidade do protocolo de 9 horas fica entre 1,22 e 1,74 pontos
+# percentuais. O nível absoluto do erro cai, de 9,54% para até 7,91% no ótimo.
+# A reextração, portanto, deslocaria o NÍVEL reportado na Tabela 12 e não a
+# posição do ótimo nem a magnitude da penalidade.
+#
+# COMO REEXTRAIR. `reextrair_k.R` faz isso a partir de uma planilha local
+# desidentificada, e nunca entra neste repositório. Ver o cabeçalho daquele
+# arquivo.
 # =============================================================================
 
 K_OBSERVADOS_MORIAH <- c(0.1638, 0.0783, 0.0654, 0.1770, 0.1251,
