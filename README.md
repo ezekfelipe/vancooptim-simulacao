@@ -280,10 +280,17 @@ fica entre 1,22 e 1,74 pontos percentuais. O nível absoluto do erro cai, de 9,5
 o nível reportado na Tabela 12, e não a posição do ótimo nem a magnitude da penalidade.
 
 **Como reextrair.** `reextrair_k.R` faz isso a partir de um CSV desidentificado, com peso,
-clearance de creatinina, dose, intervalo, duração da infusão, momento da coleta e concentração,
-e recusa o arquivo se ele trouxer coluna de nome, prontuário, registro ou data. Roda na máquina
-de quem tem acesso legítimo aos registros, e dali sai apenas o vetor de onze números. O arquivo
-de entrada não é versionado.
+dose, intervalo, duração da infusão, momento da coleta e concentração, mais o clearance de
+creatinina de uma de duas formas: a coluna `clcr` já calculada, ou as colunas `idade`, `sexo` e
+`creatinina`, caso em que o script aplica a mesma Cockcroft-Gault do motor, com peso total,
+constante 72 e fator 0,85 no sexo feminino. A segunda forma é preferível, porque basta
+transcrever a creatinina e não há risco de a conversão divergir da convenção da ferramenta,
+divergência que a seção 3.7 do manuscrito documenta entre plataformas. Havendo as duas, `clcr`
+prevalece e o script avisa se discordarem em mais de 1%.
+
+O script recusa o arquivo se ele trouxer coluna de nome, prontuário, registro, paciente, data,
+nascimento ou CPF. Roda na máquina de quem tem acesso legítimo aos registros, e dali sai apenas
+o vetor de onze números. O arquivo de entrada não é versionado.
 
 Além da distribuição de constantes de eliminação, a rotina sorteia o volume de distribuição
 verdadeiro de uma lognormal centrada no parâmetro `vd_ger`, com coeficiente de variação de

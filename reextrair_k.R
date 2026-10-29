@@ -13,12 +13,25 @@
 # linha por paciente e estas colunas, sem nome, sem prontuário e sem data:
 #
 #   peso          kg
-#   clcr          mL/min, pela mesma fórmula que a ferramenta emprega
 #   dose          mg por administração
 #   tau           h, intervalo entre doses
 #   tinf          h, duração da infusão, derivada de início e término
 #   t_coleta      h após o TÉRMINO da infusão
 #   concentracao  mg/L
+#
+# E o clearance de creatinina, de uma das duas formas:
+#
+#   clcr                       mL/min, já calculado; ou
+#   idade, sexo, creatinina    anos, "M" ou "F", mg/dL
+#
+# Na segunda forma o script calcula o ClCr pela mesma Cockcroft-Gault que o
+# motor aplica: (140 − idade) × peso total × (0,85 se feminino) ÷ (72 ×
+# creatinina). A base é o PESO TOTAL, como no motor, e não o peso ajustado.
+# Preferir esta forma evita a divergência de convenção que a seção 3.7 do
+# manuscrito documenta entre ferramentas: basta transcrever a creatinina.
+#
+# Havendo as duas, a coluna `clcr` prevalece, e o script avisa se as duas
+# discordarem em mais de 1%.
 #
 # O arquivo de entrada não é versionado. Mantenha-o fora do repositório ou
 # acrescente o seu nome ao .gitignore antes de criá-lo.
@@ -51,10 +64,38 @@ if (!file.exists(caminho)) stop("arquivo não encontrado: ", caminho, call. = FA
 
 d <- read.csv(caminho, stringsAsFactors = FALSE)
 
-obrigatorias <- c("peso", "clcr", "dose", "tau", "tinf", "t_coleta", "concentracao")
+obrigatorias <- c("peso", "dose", "tau", "tinf", "t_coleta", "concentracao")
 faltando <- setdiff(obrigatorias, names(d))
 if (length(faltando)) {
   stop("colunas ausentes no CSV: ", paste(faltando, collapse = ", "), call. = FALSE)
+}
+
+tem_clcr <- "clcr" %in% names(d)
+tem_cg   <- all(c("idade", "sexo", "creatinina") %in% names(d))
+if (!tem_clcr && !tem_cg) {
+  stop("informe a coluna `clcr`, ou as colunas `idade`, `sexo` e `creatinina`.",
+       call. = FALSE)
+}
+
+#' Cockcroft-Gault na convenção do motor: peso TOTAL, constante 72,
+#' creatinina em mg/dL, fator 0,85 no sexo feminino.
+#' Ver src/services/pharmacokinetics.service.js do vancooptim-engine.
+cockcroft_gault <- function(idade, peso, creatinina, sexo) {
+  fator <- ifelse(toupper(trimws(sexo)) == "F", 0.85, 1.0)
+  ((140 - idade) * peso * fator) / (72 * creatinina)
+}
+
+if (tem_cg) {
+  calc <- cockcroft_gault(d$idade, d$peso, d$creatinina, d$sexo)
+  if (tem_clcr) {
+    disc <- which(abs(calc - d$clcr) / d$clcr > 0.01)
+    if (length(disc)) {
+      cat("\nAVISO: em", length(disc), "linha(s) o `clcr` informado difere em mais de 1%\n")
+      cat("do calculado por Cockcroft-Gault. A coluna `clcr` prevalece.\n")
+    }
+  } else {
+    d$clcr <- calc
+  }
 }
 
 # Recusa colunas que não deveriam existir, em vez de ignorá-las em silêncio.
