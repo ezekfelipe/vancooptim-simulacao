@@ -1,0 +1,133 @@
+==============================================================================
+Comparação entre modelos populacionais — estimativa com concentração única
+Gerador: Roberts 2011 (externo)  ·  semente 20260812  ·  2000 réplicas
+Regime: 1000 mg q12h, infusão de 2 h
+==============================================================================
+
+
+### COORTE GERAL (Roberts) — modelos aplicáveis a adulto não obeso
+
+Vd verdadeiro 1.10 L/kg · coleta 5 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     3.9   17.4   13.9   0.34
+  buelga           -2.8   16.9   14.2   0.30
+  goti              8.9   19.8   15.2   0.41
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    10.2%   P95    36.4%
+    desvio da mediana  mediana     6.6%   P95    20.2%
+
+Vd verdadeiro 1.10 L/kg · coleta 9 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado    10.3   19.8   15.1   0.43
+  buelga           -0.6   17.1   13.5   0.33
+  goti              5.7   18.3   13.9   0.38
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana     9.9%   P95    29.0%
+    desvio da mediana  mediana     6.2%   P95    20.1%
+
+Vd verdadeiro 1.10 L/kg · coleta 10 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado    11.8   20.7   15.5   0.46
+  buelga           -0.0   17.3   13.8   0.34
+  goti              5.0   18.2   14.0   0.38
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    10.8%   P95    30.8%
+    desvio da mediana  mediana     7.1%   P95    21.7%
+
+Vd verdadeiro 0.90 L/kg · coleta 5 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     2.7   17.0   13.5   0.33
+  buelga           -3.9   16.9   14.2   0.29
+  goti              7.7   19.2   14.7   0.39
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    10.2%   P95    37.2%
+    desvio da mediana  mediana     6.6%   P95    20.3%
+
+Vd verdadeiro 0.90 L/kg · coleta 9 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     6.5   18.4   14.2   0.40
+  buelga           -4.3   17.3   14.1   0.32
+  goti              2.0   17.6   14.0   0.36
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    10.2%   P95    31.4%
+    desvio da mediana  mediana     6.3%   P95    20.8%
+
+Vd verdadeiro 0.90 L/kg · coleta 10 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     7.6   19.0   14.6   0.42
+  buelga           -4.2   17.5   14.2   0.33
+  goti              0.8   17.7   14.2   0.36
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    11.2%   P95    33.7%
+    desvio da mediana  mediana     7.4%   P95    22.7%
+
+Vd verdadeiro 0.70 L/kg · coleta 5 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     0.7   16.6   13.3   0.31
+  buelga           -6.0   17.2   14.6   0.29
+  goti              5.5   18.3   14.1   0.37
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    10.3%   P95    38.3%
+    desvio da mediana  mediana     6.7%   P95    20.4%
+
+Vd verdadeiro 0.70 L/kg · coleta 9 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     1.2   17.5   13.8   0.36
+  buelga           -9.5   18.7   15.7   0.32
+  goti             -3.3   17.8   14.7   0.34
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    10.8%   P95    34.7%
+    desvio da mediana  mediana     6.6%   P95    21.9%
+
+Vd verdadeiro 0.70 L/kg · coleta 10 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     1.7   18.0   14.1   0.38
+  buelga           -9.8   19.1   16.2   0.33
+  goti             -4.8   18.3   15.2   0.34
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    11.8%   P95    37.4%
+    desvio da mediana  mediana     7.9%   P95    24.1%
+
+
+### COORTE OBESA — os quatro modelos são candidatos
+
+Vd verdadeiro 0.90 L/kg · coleta 5 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     3.4   18.0   14.2   0.35
+  buelga           -3.4   17.9   14.9   0.31
+  adane             9.8   19.8   14.8   0.41
+  goti              6.0   18.9   14.7   0.36
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    13.7%   P95    34.3%
+    desvio da mediana  mediana     8.1%   P95    18.5%
+
+Vd verdadeiro 0.90 L/kg · coleta 9 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     5.4   18.3   14.3   0.37
+  buelga           -4.3   17.8   14.8   0.32
+  adane            15.6   22.4   16.7   0.47
+  goti              3.0   17.9   14.0   0.34
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    20.1%   P95    45.0%
+    desvio da mediana  mediana    11.0%   P95    22.6%
+
+Vd verdadeiro 0.70 L/kg · coleta 5 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     2.4   17.7   13.9   0.34
+  buelga           -4.4   17.9   15.2   0.31
+  adane             8.8   19.2   14.7   0.39
+  goti              4.9   18.5   14.5   0.35
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    13.8%   P95    35.1%
+    desvio da mediana  mediana     8.2%   P95    18.9%
+
+Vd verdadeiro 0.70 L/kg · coleta 9 h após a infusão   (n = 2000)
+  modelo          MPE     MAPE   MdAPE      EMC(MAPE)
+  estratificado     1.3   17.5   13.8   0.34
+  buelga           -8.4   18.6   16.0   0.31
+  adane            11.4   20.3   15.3   0.43
+  goti             -1.2   17.6   14.4   0.32
+  dispersão entre modelos, por paciente:
+    razão max/min      mediana    21.1%   P95    47.3%
+    desvio da mediana  mediana    11.5%   P95    23.7%
+

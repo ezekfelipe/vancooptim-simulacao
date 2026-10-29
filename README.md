@@ -18,6 +18,7 @@ código-fonte da ferramenta clínica, e não deve ser usado para decisão assist
 | `goti_referencia.R` | Implementação de referência do modelo de Goti 2018, usada como árbitro aritmético |
 | `saida_simulacao.txt` | Saída de `rodar_tudo()` e `calibrar_janela()`, depositada para conferência |
 | `saida_sensibilidade_vd.txt` | Saída de `sensibilidade_janela()`, depositada para conferência |
+| `saida_comparacao_modelos.txt` | Saída da comparação entre modelos da seção 3.8, cujo código não integra este repositório |
 
 ### Por que existe uma implementação de referência
 
@@ -151,16 +152,23 @@ res$sessao
 | `rodar_tudo()`, TABELA 11 | Tabela 11, desempenho sob o gerador de Llopis-Salvia |
 | `calibrar_janela()` | Tabela 12, erro por momento da coleta |
 | `sensibilidade_janela()` | Tabela 12B, janela de coleta por volume verdadeiro do gerador |
+| `saida_comparacao_modelos.txt` | Seção 3.8, comparação entre modelos populacionais (só a saída) |
 
 A Tabela 10, que trata da calibração do σ_obs, foi produzida por rotina separada e não está
 incluída nesta versão do repositório.
 
-A análise de comparação entre modelos populacionais, reportada na seção 3.8 do manuscrito,
-também não integra esta versão. Ela invoca diretamente o motor de cálculo da ferramenta, e
-não uma reimplementação independente, porque exige as definições dos seis priors tal como
-implementadas — transcrevê-las criaria uma segunda fonte de verdade para os mesmos
-coeficientes. Depositá-la aqui implicaria publicar módulos do código clínico, o que está fora
-do escopo declarado deste repositório.
+O CÓDIGO da análise de comparação entre modelos populacionais, reportada na seção 3.8 do
+manuscrito, não integra esta versão. Ele invoca diretamente o motor de cálculo da ferramenta,
+e não uma reimplementação independente, porque exige as definições dos seis priors tal como
+implementadas: transcrevê-las criaria uma segunda fonte de verdade para os mesmos
+coeficientes, arranjo cujo modo de falha já se materializou neste projeto. Depositá-lo aqui
+implicaria publicar módulos do código clínico, o que está fora do escopo declarado deste
+repositório.
+
+A SAÍDA daquela análise, contudo, está depositada em `saida_comparacao_modelos.txt`. Ela não
+contém código nem dado de paciente, e permite conferir contra o manuscrito os valores dos
+treze cenários, o que o texto sozinho não permite. Foi produzida com o motor na etiqueta
+v2.0.0, semente 20260812 e 2.000 réplicas por cenário.
 
 ---
 
