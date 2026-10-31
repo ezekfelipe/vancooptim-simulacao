@@ -1,0 +1,39 @@
+# =============================================================================
+# ESTE REPOSITORIO E PUBLICO.
+#
+# Nada que derive de registro de paciente entra aqui. O que sai da instituicao
+# para este repositorio sao constantes farmacocineticas e saidas de simulacao,
+# sem identificador, sem data e sem dado demografico associado.
+#
+# As regras abaixo sao uma rede de seguranca, nao a politica. A politica e
+# manter os arquivos de origem FORA desta pasta. Um `git add -A` distraido numa
+# pasta que contenha a planilha do hospital publicaria prontuario em
+# repositorio aberto, e o `.gitignore` e a ultima linha de defesa contra isso,
+# nao a primeira.
+# =============================================================================
+
+# Planilhas e tabelas de origem, em qualquer formato
+*.xlsx
+*.xlsm
+*.xls
+*.ods
+*.csv
+*.tsv
+
+# Saidas das ferramentas de conferencia e de reextracao, que reproduzem
+# trechos de narrativa clinica ou constantes ainda nao validadas
+conferencia_vanco_*.xlsx
+constantes_reextraidas.txt
+coorte*.csv
+
+# Ambiente e temporarios
+.Rhistory
+.RData
+.Rproj.user/
+__pycache__/
+*.pyc
+.venv/
+venv/
+~$*
+.DS_Store
+Thumbs.db
